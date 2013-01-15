@@ -163,8 +163,8 @@ DrawRectSegmenter::DrawRectSegmenter() {
 void DrawRectSegmenter::updatePlot() {
   m_input.copyTo(m_plotImg);
   if (m_state >= DRAWING_RECT) {
-    cv::rectangle(m_plotImg, m_corner0, m_corner1, cv::Scalar(0,255,0), 2);
-    cv::rectangle(m_plotImg, m_corner0*.25 + m_corner1*.75, m_corner0*.75 + m_corner1*.25, cv::Scalar(0,255,0), 2);
+    cv::rectangle(m_plotImg, m_corner0, m_corner1, cv::Scalar(255,0,0), 2);
+    cv::rectangle(m_plotImg, m_corner0*.25 + m_corner1*.75, m_corner0*.75 + m_corner1*.25, cv::Scalar(0,0,255), 2);
   }
 }
 
@@ -194,7 +194,11 @@ cv::Mat DrawRectSegmenter::segment(cv::Mat in) {
   bgdModel.resize(1, 65);
   fgdModel.resize(1, 65);
   cv::Rect rect;
-  cv::grabCut( cv::Mat(m_input, bb), cv::Mat(mask, bb), rect, bgdModel, fgdModel, 1, cv::GC_INIT_WITH_MASK );
+
+  long int start = cv::getTickCount();
+  cv::grabCut( cv::Mat(m_input, bb), cv::Mat(mask, bb), rect, bgdModel, fgdModel, 5, cv::GC_INIT_WITH_MASK );
+  printf("time: %.3f\n", (cv::getTickCount()-start)/cv::getTickFrequency());
+
 
 
   mask = gcToMask(mask);

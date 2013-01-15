@@ -38,6 +38,9 @@ target_link_libraries(interactive_segmentation_service ${PROJECT_NAME})
 
 include_directories("/usr/include/vtk-5.6")
 
+rosbuild_add_executable(test_int_seg src/test_interactive_segmentation.cpp)
+target_link_libraries(test_int_seg ${PROJECT_NAME})
+
 
 rosbuild_add_executable(test_segmentation src/test_segmentation.cpp)
 target_link_libraries(test_segmentation ${PROJECT_NAME} vtkCommon vtkFiltering)
